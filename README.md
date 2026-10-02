@@ -4,7 +4,7 @@ Modern open-source Linux GUI for preparing and flashing a custom **160×40 px** 
 
 <p align="center"><img src="docs/demo.gif" alt="ALIENTEK T90 Logo Tool demo"></p>
 
-<p align="center"><a href="https://github.com/Volod3/T90_tool/releases/latest"><strong>⬇ DOWNLOAD APPIMAGE</strong></a></p>><strong>⬇️ DOWNLOAD APPIMAGE</strong></a></p>
+<p align="center"><a href="https://github.com/Volod3/T90_tool/releases/latest"><strong>⬇ DOWNLOAD APPIMAGE</strong></a></p>
 
 > Ready-to-run Linux AppImage — no Python, dependencies or terminal commands are required for normal users.
 
@@ -34,7 +34,7 @@ Modern open-source Linux GUI for preparing and flashing a custom **160×40 px** 
 
 For normal users, the **AppImage** is the recommended way to run the application.
 
-1. Download the latest AppImage using the **DOWNLOAD APPIMAGE** button above.
+1. Download the latest AppImage from the link above.
 2. Open the AppImage file **Properties**.
 3. Enable **Allow executing file as program**.
 4. Double-click the AppImage to launch the application.
