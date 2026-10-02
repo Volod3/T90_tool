@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ALIENTEK T90 Logo Tool
+Comment=Upload a custom 160x40 logo to an ALIENTEK T90
+Exec=/usr/bin/alientek-t90-logo-tool
+Icon=alientek-t90-logo-tool
+Terminal=false
+Categories=Utility;Electronics;
+StartupNotify=true

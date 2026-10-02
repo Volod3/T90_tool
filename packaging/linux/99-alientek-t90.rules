@@ -1,0 +1,2 @@
+# ALIENTEK T90 USB HID access rule
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="19f5", ATTRS{idProduct}=="3245", TAG+="uaccess"

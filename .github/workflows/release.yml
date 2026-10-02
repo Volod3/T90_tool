@@ -1,0 +1,106 @@
+name: Build & Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          test -f t90_flash.py
+      - run: |
+          pyinstaller --noconfirm --clean --onefile --windowed \
+            --name Alientek-T90-Logo-Tool \
+            --add-data "t90_flash.py:." \
+            --add-data "assets:assets" \
+            --hidden-import=hid --collect-all hid main.py
+      - name: Build DEB
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p pkg/DEBIAN pkg/opt/alientek-t90-logo-tool pkg/usr/bin pkg/usr/share/applications pkg/usr/share/icons/hicolor/scalable/apps pkg/lib/udev/rules.d
+          install -m755 dist/Alientek-T90-Logo-Tool pkg/opt/alientek-t90-logo-tool/Alientek-T90-Logo-Tool
+          ln -s /opt/alientek-t90-logo-tool/Alientek-T90-Logo-Tool pkg/usr/bin/alientek-t90-logo-tool
+          install -m644 assets/icon.svg pkg/usr/share/icons/hicolor/scalable/apps/alientek-t90-logo-tool.svg
+          install -m644 packaging/linux/alientek-t90-logo-tool.desktop pkg/usr/share/applications/alientek-t90-logo-tool.desktop
+          install -m644 packaging/linux/99-alientek-t90.rules pkg/lib/udev/rules.d/99-alientek-t90.rules
+          cat > pkg/DEBIAN/control <<EOF
+          Package: alientek-t90-logo-tool
+          Version: ${VERSION:-1.0.0}
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: ${GITHUB_ACTOR}
+          Description: Open-source ALIENTEK T90 logo uploader
+           Prepare and flash custom 160x40 logos over USB HID.
+          EOF
+          dpkg-deb --build --root-owner-group pkg dist/alientek-t90-logo-tool_amd64.deb
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux
+          path: |
+            dist/Alientek-T90-Logo-Tool
+            dist/alientek-t90-logo-tool_amd64.deb
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          if (!(Test-Path t90_flash.py)) { throw "t90_flash.py is missing" }
+      - shell: pwsh
+        run: |
+          pyinstaller `
+            --noconfirm `
+            --clean `
+            --onefile `
+            --windowed `
+            --name Alientek-T90-Logo-Tool `
+            --add-data "t90_flash.py;." `
+            --add-data "assets;assets" `
+            --hidden-import=hid `
+            --collect-all hid `
+            main.py
+          Compress-Archive -Path dist/Alientek-T90-Logo-Tool.exe -DestinationPath dist/Alientek-T90-Logo-Tool-Windows-x64.zip
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows
+          path: dist/Alientek-T90-Logo-Tool-Windows-x64.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [linux, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v7
+        with: {name: linux, path: release/linux}
+      - uses: actions/download-artifact@v7
+        with: {name: windows, path: release/windows}
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            release/linux/Alientek-T90-Logo-Tool \
+            release/linux/alientek-t90-logo-tool_amd64.deb \
+            release/windows/Alientek-T90-Logo-Tool-Windows-x64.zip \
+            --title "ALIENTEK T90 Logo Tool $GITHUB_REF_NAME" \
+            --generate-notes

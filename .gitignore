@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.log
+
+# Local backups
+*.backup
+*.backup-*
+*.before-*
+*.broken-*
+
+# Local packaging/build data
+AppDir/
+mnt/
+tools/
+*патч*.py

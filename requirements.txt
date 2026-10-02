@@ -1,0 +1,4 @@
+PySide6==6.11.2
+Pillow==12.3.0
+hidapi==0.15.0
+PyInstaller==6.22.3
