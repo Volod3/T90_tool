@@ -2,17 +2,23 @@
 
 Modern open-source GUI for preparing and flashing a custom **160×40 px** logo to the **ALIENTEK T90** soldering iron over USB HID.
 
+<p align="center"><img src="docs/demo.gif" alt="ALIENTEK T90 Logo Tool demo"></p>
+
+<p align="center"><a href="https://github.com/Volod3/T90_tool/releases/latest"><strong>⬇️ DOWNLOAD APPIMAGE</strong></a></p>
+
+> No Python, dependencies or terminal commands are required to use the ready-made AppImage.
+
+
 ## Features
 
 - Drag & drop images
-- Automatic 160×40 conversion
+- Custom 160×40 px logo
+- Stretch / Fit image modes
+- Sharp / Smooth scaling
 - Pixel-accurate 4× preview
 - USB HID flashing
-- Automatic system-language detection
-- Ukrainian, English, Polish, German, French, Spanish and Czech
-- Linux and Windows builds
-- Linux `.deb` package
-- GitHub Actions release builds
+- Ukrainian, Russian and English
+- Ready-to-run Linux AppImage
 
 ## Device
 
@@ -24,7 +30,7 @@ Modern open-source GUI for preparing and flashing a custom **160×40 px** logo t
 
 This repository expects the already-tested `t90_flash.py` from the working T90 project. Keep that file unchanged and place it in the repository root when building.
 
-## Local Linux build
+## Build from source
 
 ```bash
 python3 -m venv .venv
