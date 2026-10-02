@@ -7,6 +7,7 @@ Modern open-source Linux GUI for preparing and flashing a custom **160×40 px** 
 <p align="center"><a href="https://github.com/Volod3/T90_tool/releases/latest"><strong>⬇ DOWNLOAD</strong></a></p>
 
 > Ready-to-run Linux AppImage — no Python, dependencies or terminal commands are required for normal users.
+> Windows `.exe` version is also available.
 
 ## ✨ Features
 
