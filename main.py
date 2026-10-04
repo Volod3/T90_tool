@@ -914,15 +914,15 @@ class MainWindow(QMainWindow):
         for code, label in [
             (
                 "uk",
-                "🇺🇦 Українська",
+                "Українська",
             ),
             (
                 "en",
-                "🇬🇧 English",
+                "English",
             ),
             (
                 "ru",
-                "🇷🇺 Русский",
+                "Русский",
             ),
         ]:
             button = QPushButton(
